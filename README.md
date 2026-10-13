@@ -10,7 +10,10 @@ formulário de contato por e-mail e painel administrador para editar o conteúdo
 - **Infra:** Docker Compose (MySQL + backend + frontend/nginx)
 
 ## Como rodar
-1. Copie `.env.example` para `.env` e preencha as senhas (o `.env` nunca vai para o Git).
+1. Crie um arquivo `.env` na raiz com as variáveis abaixo (o `.env` nunca vai para o Git):
+   `MYSQL_ROOT_PASSWORD`, `MYSQL_USER`, `MYSQL_PASSWORD`, `JWT_SECRET` (mín. 64 caracteres),
+   `CORS_ALLOWED_ORIGINS`, `REACT_APP_API_URL`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`,
+   `MAIL_PASSWORD`, `MAIL_FROM`, `MAIL_TO`, `MAIL_SSL`, `MAIL_STARTTLS`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`.
 2. Suba tudo:
    ```
    docker compose up -d --build

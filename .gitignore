@@ -1,39 +1,74 @@
-# ── Segurança — NUNCA comitar ──────────────────────────
+# ── Segredos — NUNCA comitar ───────────────────────────
 .env
-*.env
 .env.*
-!.env.example
+*.env
+.env.example
+!.env.sample
 *.key
 *.pem
 *.p12
 *.jks
+*.keystore
 secrets/
+credentials*.json
 
 # ── Java / Maven ───────────────────────────────────────
+backend/target/
 target/
 *.class
 *.jar
 *.war
-.mvn/
-.idea/
-*.iml
-*.ipr
-*.iws
+*.ear
+.mvn/wrapper/maven-wrapper.jar
+hs_err_pid*
+dependency-reduced-pom.xml
 
 # ── Node / React ───────────────────────────────────────
 node_modules/
 frontend/build/
+build/
+coverage/
 npm-debug.log*
 yarn-debug.log*
+yarn-error.log*
 .npm
+.eslintcache
 
-# ── Docker ────────────────────────────────────────────
-# (não ignorar Dockerfile, mas ignorar volumes locais)
+# ── Uploads e dados gerados em execução ────────────────
+uploads/
+backend/uploads/
 mysql_data/
+*.sql.gz
+*.dump
 
-# ── SO / IDE ───────────────────────────────────────────
-.DS_Store
-Thumbs.db
+# ── Logs e temporários ─────────────────────────────────
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+*.orig
 *.swp
 *.swo
-.vscode/settings.json
+*~
+
+# ── IDEs ───────────────────────────────────────────────
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+
+# ── Sistema operacional ────────────────────────────────
+.DS_Store
+.AppleDouble
+Thumbs.db
+desktop.ini
+
+# ── Ferramentas de IA / scratch ────────────────────────
+.claude/
