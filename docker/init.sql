@@ -35,10 +35,8 @@ CREATE TABLE IF NOT EXISTS usuario (
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Admin padrão: admin@polisual.com.br / Admin@2024
--- Senha gerada com BCrypt custo 12 — TROQUE EM PRODUÇÃO
-INSERT INTO usuario (email, senha, role) VALUES
-('admin@polisual.com.br', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4oM0lQiXRq', 'ADMIN');
+-- O administrador NÃO é criado aqui: o backend cria/atualiza o admin ao subir,
+-- a partir de ADMIN_EMAIL e ADMIN_PASSWORD do .env (nenhuma senha fica no código).
 
 -- Catálogo real (marcas revendidas) — atualizado a partir da planilha de estoque de 31/05/2026
 INSERT INTO produto (nome, categoria, descricao, imagem_url, embalagens, atributos, organico, destaque) VALUES

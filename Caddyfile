@@ -1,0 +1,5 @@
+# Com DOMAIN=seudominio.com.br o Caddy obtém e renova o certificado HTTPS sozinho.
+{$DOMAIN::80} {
+	encode gzip
+	reverse_proxy frontend:80
+}
