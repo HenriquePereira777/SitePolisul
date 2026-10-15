@@ -2,8 +2,8 @@
 export const empresa = {
   nome: 'Polisul',
   nomeCompleto: 'Polisul Alimentos',
-  telefone: '(53) 9 9959-7733',
-  whatsapp: '5553999597733',             // só dígitos, com DDI, para wa.me
+  telefone: '(53) 3283-3500',
+  whatsapp: '555332833500',             // só dígitos, com DDI, para wa.me
   email: 'polisulalimentos@polisulalimentos.com.br',
   local: 'Pelotas, Rio Grande do Sul',
   horario: 'Seg–Sex, 8h às 18h',
