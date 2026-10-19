@@ -32,7 +32,7 @@ export default function Novidades() {
                   <h3 className="mt-1 mb-2 text-xl text-green-900 font-display">{sanitize(p.titulo)}</h3>
                   {p.resumo && <p className="text-sm text-gray-600">{sanitize(p.resumo)}</p>}
                   {p.conteudo && (
-                    <button type="button" onClick={() => setAberta(p)} className="mt-auto pt-4 text-sm font-medium text-left text-green-800 hover:underline">
+                    <button type="button" onClick={() => setAberta(p)} className="pt-4 mt-auto text-sm font-medium text-left text-green-800 hover:underline">
                       Ler mais →
                     </button>
                   )}
@@ -46,7 +46,7 @@ export default function Novidades() {
       {aberta && (
         <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto bg-black/60" onMouseDown={e => e.target === e.currentTarget && setAberta(null)}>
           <div className="w-full max-w-2xl my-8 overflow-hidden bg-white shadow-xl rounded-2xl" role="dialog" aria-modal="true" aria-label={sanitize(aberta.titulo)}>
-            {aberta.imagemUrl && <img src={aberta.imagemUrl} alt="" className="object-cover w-full aspect-[16/9]" />}
+            {aberta.imagemUrl && <img src={aberta.imagemUrl} alt="" className="w-full h-auto max-h-[70vh] object-contain bg-gray-50 " />}
             <div className="p-6">
               <time className="text-xs tracking-wide text-gray-500 uppercase">{fmt(aberta.dataPublicacao)}</time>
               <h3 className="mt-1 mb-3 text-2xl text-green-900 font-display">{sanitize(aberta.titulo)}</h3>

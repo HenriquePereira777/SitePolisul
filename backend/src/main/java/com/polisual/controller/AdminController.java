@@ -78,6 +78,7 @@ public class AdminController {
             atual.setImagemUrl(p.getImagemUrl());
             atual.setPublicado(p.getPublicado());
             if (p.getDataPublicacao() != null) atual.setDataPublicacao(p.getDataPublicacao());
+            atual.setDiasNoAr(p.getDiasNoAr());   // null limpa o prazo
             return ResponseEntity.ok(publicacoes.save(atual));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -128,6 +129,7 @@ public class AdminController {
         if (vazio(p.getTitulo())) return "Informe o título.";
         if (p.getTitulo().length() > 150) return "Título muito longo (máx. 150).";
         if (p.getResumo() != null && p.getResumo().length() > 300) return "Resumo muito longo (máx. 300).";
+        if (p.getDiasNoAr() != null && (p.getDiasNoAr() < 1 || p.getDiasNoAr() > 3650)) return "Dias no site deve ficar entre 1 e 3650 (ou vazio para não expirar).";
         if (p.getPublicado() == null) p.setPublicado(true);
         return null;
     }
