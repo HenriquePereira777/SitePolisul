@@ -29,6 +29,16 @@ public class Publicacao {
     @Column(name = "data_publicacao")
     private LocalDateTime dataPublicacao = LocalDateTime.now();
 
+    // Quantos dias a publicação fica no site, contados a partir de dataPublicacao. null = sem prazo (fica até ser ocultada/excluída).
+    @Column(name = "dias_no_ar")
+    private Integer diasNoAr;
+
     @Column(name = "criado_em", updatable = false)
     private LocalDateTime criadoEm = LocalDateTime.now();
+
+    // Está dentro do prazo? (usado só no servidor; recebe o "agora" como parâmetro para não virar propriedade do JSON)
+    public boolean dentroDoPrazo(LocalDateTime agora) {
+        if (diasNoAr == null || dataPublicacao == null) return true;
+        return dataPublicacao.plusDays(diasNoAr).isAfter(agora);
+    }
 }

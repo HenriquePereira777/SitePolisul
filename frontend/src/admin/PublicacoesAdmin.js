@@ -3,10 +3,24 @@ import api from '../utils/security';
 import ImagemInput from './ImagemInput';
 import { Campo, Modal, Vazio, inputCls, btnPrimario, btnSecundario, btnPerigo, mensagemErro } from './ui';
 
-const NOVO = { titulo: '', resumo: '', conteudo: '', imagemUrl: '', publicado: true };
+const NOVO = { titulo: '', resumo: '', conteudo: '', imagemUrl: '', publicado: true, diasNoAr: null };
 
 const aoInput = iso => (iso ? iso.slice(0, 16) : '');
 const fmt = iso => (iso ? new Date(iso).toLocaleDateString('pt-BR') : '');
+
+// Data em que a publicação sai do site (data + diasNoAr). null se não tem prazo.
+const expiraEm = p => {
+  if (!p.diasNoAr || !p.dataPublicacao) return null;
+  const d = new Date(p.dataPublicacao);
+  d.setDate(d.getDate() + Number(p.diasNoAr));
+  return d;
+};
+const estado = p => {
+  if (!p.publicado) return 'rascunho (oculta)';
+  const fim = expiraEm(p);
+  if (!fim) return 'publicada';
+  return fim <= new Date() ? `expirada em ${fim.toLocaleDateString('pt-BR')} (fora do site)` : `publicada · sai do site em ${fim.toLocaleDateString('pt-BR')}`;
+};
 
 export default function PublicacoesAdmin() {
   const [lista, setLista] = useState(null);
@@ -43,7 +57,7 @@ export default function PublicacoesAdmin() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-medium text-green-900 truncate">{p.titulo}</p>
-              <p className="text-xs text-gray-500">{fmt(p.dataPublicacao)} · {p.publicado ? 'publicada' : 'rascunho (oculta)'}</p>
+              <p className="text-xs text-gray-500">{fmt(p.dataPublicacao)} · {estado(p)}</p>
             </div>
             <div className="flex flex-wrap justify-end gap-2">
               <button className={btnSecundario} onClick={() => setEdit({ ...NOVO, ...p })}>Editar</button>
@@ -69,7 +83,9 @@ function Form({ inicial, onClose, onSalvo }) {
     if (!f.titulo.trim()) { setErro('Informe o título.'); return; }
     setSalvando(true); setErro('');
     try {
-      const corpo = { ...f, titulo: f.titulo.trim(), dataPublicacao: f.dataPublicacao || null };
+      const dias = f.diasNoAr === '' || f.diasNoAr == null ? null : Number(f.diasNoAr);
+      if (dias !== null && (!Number.isInteger(dias) || dias < 1)) { setErro('Dias no site: informe um número inteiro a partir de 1, ou deixe vazio.'); setSalvando(false); return; }
+      const corpo = { ...f, titulo: f.titulo.trim(), dataPublicacao: f.dataPublicacao || null, diasNoAr: dias };
       if (f.id) await api.put(`/api/admin/publicacoes/${f.id}`, corpo); else await api.post('/api/admin/publicacoes', corpo);
       onSalvo();
     } catch (err) { setErro(mensagemErro(err)); setSalvando(false); }
@@ -90,6 +106,9 @@ function Form({ inicial, onClose, onSalvo }) {
           <Campo label="Data"><input type="datetime-local" className={inputCls} value={aoInput(f.dataPublicacao)} onChange={e => set('dataPublicacao', e.target.value)} /></Campo>
           <label className="flex items-center gap-2 text-sm sm:mt-7"><input type="checkbox" checked={!!f.publicado} onChange={e => set('publicado', e.target.checked)} /> Publicada (visível no site)</label>
         </div>
+        <Campo label="Dias no site" dica={expiraEm(f) ? `Sai do site em ${expiraEm(f).toLocaleDateString('pt-BR')}. Deixe vazio para ficar sem prazo.` : 'Opcional. Depois desses dias (a contar da data acima) a publicação some do site. Vazio = sem prazo.'}>
+          <input type="number" min="1" max="3650" step="1" className={inputCls} placeholder="Ex.: 30" value={f.diasNoAr ?? ''} onChange={e => set('diasNoAr', e.target.value)} />
+        </Campo>
         {erro && <p className="text-sm text-red-600">{erro}</p>}
         <div className="flex justify-end gap-2 pt-2">
           <button type="button" className={btnSecundario} onClick={onClose}>Cancelar</button>

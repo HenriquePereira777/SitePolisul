@@ -7,6 +7,7 @@ import com.polisual.repository.PublicacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 // Leitura pública do conteúdo editável (site).
@@ -18,7 +19,13 @@ public class PublicoController {
     private final BannerRepository banners;
 
     @GetMapping("/api/publicacoes")
-    public List<Publicacao> publicacoes() { return publicacoes.findByPublicadoTrueOrderByDataPublicacaoDesc(); }
+    public List<Publicacao> publicacoes() {
+        // Só o que está publicado E ainda dentro do prazo (diasNoAr). Publicações vencidas somem do site, mas continuam no painel.
+        LocalDateTime agora = LocalDateTime.now();
+        return publicacoes.findByPublicadoTrueOrderByDataPublicacaoDesc().stream()
+                .filter(p -> p.dentroDoPrazo(agora))
+                .toList();
+    }
 
     @GetMapping("/api/banners")
     public List<Banner> banners() { return banners.findByAtivoTrueOrderByOrdemAscIdAsc(); }
