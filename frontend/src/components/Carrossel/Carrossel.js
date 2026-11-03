@@ -57,12 +57,12 @@ function SlideVideo({ ativo, comSom, onSom, onFim }) {
         className="absolute inset-0 object-cover w-full h-full bg-black"
         src="/videos/polisul-institucional.mp4"
         poster="/videos/polisul-poster.jpg"
-        muted loop={!comSom} playsInline preload="auto" aria-hidden={!comSom}
+        muted loop={!comSom} playsInline preload="none" aria-hidden={!comSom}
         onEnded={() => { const v = ref.current; if (v) { v.muted = true; v.controls = false; v.loop = true; } onFim(); }}
       />
       {!comSom && (
         <button type="button" onClick={ativarSom}
-          className="absolute z-10 flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-900 transition-colors rounded-full shadow-md top-4 left-4 bg-white/90 hover:bg-white">
+          className="absolute z-10 flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-900 transition-colors rounded-full shadow-md top-14 left-4 sm:top-4 bg-white/90 hover:bg-white">
           <FiVolume2 size={16} /> Ouvir com som
         </button>
       )}
@@ -115,7 +115,7 @@ export default function Carrossel() {
   };
 
   return (
-    <section id="destaques" className="py-20 bg-white" aria-roledescription="carrossel" aria-label="Destaques da Polisul">
+    <section id="destaques" className="py-14 md:py-20 bg-white" aria-roledescription="carrossel" aria-label="Destaques da Polisul">
       <div className="max-w-6xl px-6 mx-auto">
         <div className="mb-9">
           <span className="section-tag">Conheça a Polisul</span>

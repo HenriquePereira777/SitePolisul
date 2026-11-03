@@ -13,7 +13,7 @@ const valores = [
 
 export default function Sobre() {
   return (
-    <section id="sobre" className="py-24 overflow-hidden bg-white">
+    <section id="sobre" className="py-16 md:py-24 overflow-hidden bg-white">
       <div className="grid items-center max-w-6xl gap-16 px-6 mx-auto lg:grid-cols-2">
         {/* Colagem de fotos */}
         <Reveal className="relative pb-12 pr-8 sm:pr-14">
