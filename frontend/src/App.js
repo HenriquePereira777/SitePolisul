@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import Fatos from './components/Fatos/Fatos';
@@ -18,9 +18,27 @@ import Novidades from './components/Novidades/Novidades';
 import './index.css';
 
 const AdminApp = React.lazy(() => import('./admin/AdminApp'));
+const Privacidade = React.lazy(() => import('./pages/Privacidade'));
+
+const caminhoAtual = () => window.location.pathname.replace(/\/+$/, '');
 
 function App() {
-  if (window.location.pathname.replace(/\/+$/, '') === '/admin') {
+  const caminho = caminhoAtual();
+
+  // O painel administrativo não deve aparecer em buscas.
+  useEffect(() => {
+    if (caminho !== '/admin') return;
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex, nofollow';
+    document.head.appendChild(meta);
+    return () => meta.remove();
+  }, [caminho]);
+
+  if (caminho === '/privacidade') {
+    return <Suspense fallback={null}><Privacidade /></Suspense>;
+  }
+  if (caminho === '/admin') {
     return <Suspense fallback={null}><AdminApp /></Suspense>;
   }
   return (

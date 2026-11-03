@@ -180,7 +180,10 @@ export function Footer() {
       <div className="py-4 border-t border-white/10">
         <div className="flex flex-wrap items-center justify-between max-w-6xl gap-2 px-6 mx-auto text-xs text-white/40">
           <span>© {new Date().getFullYear()} Polisul Alimentos. Todos os direitos reservados.</span>
-          <span>Desenvolvido por Henrique Pereira</span>
+          <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <a href="/privacidade" className="transition-colors hover:text-white">Política de Privacidade</a>
+            <span>Desenvolvido por Henrique Pereira</span>
+          </span>
         </div>
       </div>
     </footer>
