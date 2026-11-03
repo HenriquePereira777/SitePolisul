@@ -12,9 +12,9 @@ const ETAPAS = [
 
 export default function Processo() {
   return (
-    <section id="processo" className="py-24 bg-green-50">
+    <section id="processo" className="py-16 md:py-24 bg-green-50">
       <div className="max-w-6xl px-6 mx-auto">
-        <Reveal className="max-w-2xl mx-auto mb-16 text-center">
+        <Reveal className="max-w-2xl mx-auto mb-10 text-center md:mb-16">
           <span className="section-tag">Como trabalhamos</span>
           <h2 className="mb-3 text-3xl text-green-900 font-display md:text-4xl">Do campo ao pacote, passo a passo</h2>
           <p className="text-gray-500">Cada etapa pensada para entregar o mesmo arroz de qualidade, pacote após pacote.</p>
@@ -22,12 +22,12 @@ export default function Processo() {
 
         <div className="relative">
           <div className="absolute hidden w-px bg-green-100 md:block left-1/2 top-2 bottom-2" aria-hidden />
-          <ol className="space-y-12 md:space-y-20">
+          <ol className="space-y-10 md:space-y-20">
             {ETAPAS.map((e, i) => (
               <li key={e.titulo} className="relative grid items-center gap-6 md:grid-cols-2 md:gap-20">
                 <Reveal className={i % 2 ? 'md:order-2' : ''}>
                   <img src={`/images/destaques/${e.img}.jpg`} alt={e.titulo} loading="lazy"
-                    className="object-cover w-full shadow-lg aspect-[16/10] rounded-2xl" />
+                    className="object-cover w-full shadow-lg aspect-[2/1] sm:aspect-[16/10] rounded-2xl" />
                 </Reveal>
                 <Reveal delay={120} className={i % 2 ? 'md:order-1 md:text-right' : ''}>
                   <span className="text-5xl font-bold text-gold-400 font-display">{String(i + 1).padStart(2, '0')}</span>

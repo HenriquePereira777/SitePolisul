@@ -16,7 +16,7 @@ export default function Novidades() {
   if (lista.length === 0) return null;
 
   return (
-    <section id="novidades" className="py-20 bg-green-50">
+    <section id="novidades" className="py-14 md:py-20 bg-green-50">
       <div className="max-w-6xl px-6 mx-auto">
         <div className="mb-9">
           <span className="section-tag">Novidades</span>
