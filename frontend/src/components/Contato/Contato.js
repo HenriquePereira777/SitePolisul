@@ -12,6 +12,7 @@ const infos = [
 
 export default function Contato() {
   const [form, setForm]       = useState({ nome:'', email:'', telefone:'', empresa:'', mensagem:'' });
+  const [aceite, setAceite]   = useState(false);
   const [erros, setErros]     = useState({});
   const [status, setStatus]   = useState(null); // 'ok' | 'erro'
   const [enviando, setEnviando] = useState(false);
@@ -25,6 +26,7 @@ export default function Contato() {
   const handleSubmit = async e => {
     e.preventDefault();
     const errosValidacao = validarContato(form);
+    if (!aceite) errosValidacao.aceite = 'Para enviar, é preciso concordar com a Política de Privacidade.';
     if (Object.keys(errosValidacao).length > 0) { setErros(errosValidacao); return; }
 
     setEnviando(true);
@@ -33,6 +35,7 @@ export default function Contato() {
       await api.post('/api/contatos', form);
       setStatus('ok');
       setForm({ nome:'', email:'', telefone:'', empresa:'', mensagem:'' });
+      setAceite(false);
     } catch (err) {
       // Exibe mensagem do servidor se houver, senão mensagem genérica
       const msg = err.response?.data?.erro || 'Erro ao enviar. Tente novamente.';
@@ -120,6 +123,19 @@ export default function Contato() {
                 }
                 <span className="text-[11px] text-gray-400">{form.mensagem.length}/2000</span>
               </div>
+            </div>
+
+            <div className="mt-4">
+              <label className="flex items-start gap-2.5 text-xs leading-relaxed text-gray-600 cursor-pointer">
+                <input type="checkbox" checked={aceite}
+                  onChange={e => { setAceite(e.target.checked); if (erros.aceite) setErros(p => ({ ...p, aceite: null })); }}
+                  className="mt-0.5 w-4 h-4 accent-green-600 flex-shrink-0" />
+                <span>
+                  Li e concordo com o uso dos meus dados para responder a esta mensagem, conforme a{' '}
+                  <a href="/privacidade" target="_blank" rel="noopener noreferrer" className="font-medium text-green-800 underline">Política de Privacidade</a>.
+                </span>
+              </label>
+              {erros.aceite && <p className="text-[11px] text-red-500 mt-1">{erros.aceite}</p>}
             </div>
 
             <button type="submit" disabled={enviando}
